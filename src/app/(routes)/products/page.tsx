@@ -49,18 +49,18 @@ export default function ProductsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(4)].map((_, i) => (
             <Card key={i} className="animate-pulse">
-              <div className="aspect-square bg-gray-200 rounded-t-lg" />
-              <CardHeader>
-                <CardTitle><div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div></CardTitle>
+              <div className="aspect-[4/3] bg-gray-200" />
+              <CardHeader className="p-4">
+                <CardTitle><div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div></CardTitle>
                 <div className="h-4 bg-gray-200 rounded w-1/4"></div>
               </CardHeader>
-              <CardContent>
-                <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+              <CardContent className="px-4 pb-2 pt-0">
+                <div className="h-3 bg-gray-200 rounded w-full mb-1.5"></div>
+                <div className="h-3 bg-gray-200 rounded w-5/6"></div>
               </CardContent>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="px-4 pb-4 pt-2">
                 <div className="h-6 bg-gray-200 rounded w-16"></div>
-                <div className="h-9 bg-gray-200 rounded w-24"></div>
+                <div className="h-9 bg-gray-200 rounded w-24 ml-auto"></div>
               </CardFooter>
             </Card>
           ))}
@@ -87,56 +87,61 @@ export default function ProductsPage() {
           <p className="text-lg text-gray-500">No products found.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map((product) => (
-            <Card key={product.id} className="flex flex-col h-full hover:shadow-md transition-shadow">
-              <Link href={`/products/${product.id}`} className="block">
-                <div className="relative aspect-square w-full">
-                  <Image
-                    src={product.image_url || '/placeholder-product.jpg'}
-                    alt={product.name}
-                    fill
-                    className="object-cover rounded-t-lg"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-              </Link>
-              <CardHeader className="pb-2">
-                <div className="flex justify-between items-start gap-2">
-                  <CardTitle className="text-lg">
-                    <Link href={`/products/${product.id}`} className="hover:underline">
-                      {product.name}
-                    </Link>
-                  </CardTitle>
-                  <Badge variant={product.stock > 0 ? 'default' : 'destructive'} className="shrink-0">
-                    {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+            <div key={product.id}>
+              <Card className="flex flex-col h-full hover:shadow-md transition-shadow">
+                <Link href={`/products/${product.id}`} className="block">
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
+                    <Image
+                      src={product.image_url || '/placeholder-product.jpg'}
+                      alt={product.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                </Link>
+                <CardHeader className="p-4">
+                  <div className="flex justify-between items-start gap-2">
+                    <CardTitle className="text-lg line-clamp-1">
+                      <Link href={`/products/${product.id}`} className="hover:underline">
+                        {product.name}
+                      </Link>
+                    </CardTitle>
+                    <Badge 
+                      variant={product.stock > 0 ? 'default' : 'destructive'} 
+                      className="shrink-0 text-xs"
+                    >
+                      {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+                    </Badge>
+                  </div>
+                  <Badge variant="outline" className="w-fit text-xs mt-1">
+                    {product.category}
                   </Badge>
-                </div>
-                <Badge variant="outline" className="w-fit">
-                  {product.category}
-                </Badge>
-              </CardHeader>
-              <CardContent className="flex-grow pb-2">
-                <p className="text-sm text-gray-600 line-clamp-2">
-                  {product.description}
-                </p>
-              </CardContent>
-              <CardFooter className="flex justify-between items-center pt-2">
-                <span className="font-bold text-lg">${product.price.toFixed(2)}</span>
-                <Button 
-                  size="sm" 
-                  disabled={product.stock === 0}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Add to cart:', product.id);
-                  }}
-                  className="whitespace-nowrap"
-                >
-                  Add to Cart
-                </Button>
-              </CardFooter>
-            </Card>
+                </CardHeader>
+                <CardContent className="px-4 pb-2 pt-0 flex-grow">
+                  <p className="text-sm text-gray-600 line-clamp-2">
+                    {product.description}
+                  </p>
+                </CardContent>
+                <CardFooter className="px-4 pb-4 pt-2">
+                  <span className="font-bold text-lg">${product.price.toFixed(2)}</span>
+                  <Button 
+                    size="sm" 
+                    className="ml-auto"
+                    disabled={product.stock === 0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      console.log('Add to cart:', product.id);
+                    }}
+                  >
+                    Add to Cart
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
           ))}
         </div>
       )}
