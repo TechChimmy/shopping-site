@@ -23,9 +23,17 @@ export function Navbar() {
   return (
     <nav className="border-b bg-background">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link href="/" className="text-xl font-bold">
-          {user?.role === 'admin' ? 'Admin Panel' : 'My Account'}
-        </Link>
+        <div className="flex items-center gap-8">
+          <Link href="/" className="text-xl font-bold">
+            {user?.role === 'admin' ? 'Admin Panel' : 'My Shop'}
+          </Link>
+          <Link 
+            href="/products" 
+            className="text-sm font-medium hover:underline"
+          >
+            Products
+          </Link>
+        </div>
         
         <div className="flex items-center gap-4">
           {user ? (
@@ -42,12 +50,20 @@ export function Navbar() {
               <LogoutButton />
             </div>
           ) : (
-            <Link
-              href="/auth/login"
-              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              Login
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/auth/login"
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              >
+                Login
+              </Link>
+              <Link
+                href="/auth/register"
+                className="text-sm font-medium hover:underline"
+              >
+                Register
+              </Link>
+            </div>
           )}
         </div>
       </div>
